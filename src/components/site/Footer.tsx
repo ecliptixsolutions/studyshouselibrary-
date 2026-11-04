@@ -56,15 +56,23 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-brand-gold/25 pt-6 text-xs text-brand-parchment/60 sm:flex-row">
-          <p>
+        <div className="mt-12 grid gap-3 border-t border-brand-gold/25 pt-6 text-center text-xs text-brand-parchment/60 sm:grid-cols-3 sm:items-center sm:text-left">
+          <p className="sm:justify-self-start">
             © {new Date().getFullYear()} {LIBRARY.name}, Vadodara. All rights reserved.
           </p>
+          <a
+            href="https://www.ecliptixsolutions.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="justify-self-center transition-colors hover:text-brand-gold hover:underline"
+          >
+            Designed and Developed by Ecliptix Solutions
+          </a>
           <a
             href={LIBRARY.whatsappLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="transition-colors hover:text-brand-gold"
+            className="justify-self-center transition-colors hover:text-brand-gold sm:justify-self-end"
           >
             WhatsApp {LIBRARY.whatsappDisplay}
           </a>
