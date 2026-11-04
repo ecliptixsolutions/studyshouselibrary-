@@ -1,0 +1,202 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Study House Library: midnight navy, royal gold and ivory. */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  /* Brand tokens */
+  --color-brand: var(--brand);
+  --color-brand-deep: var(--brand-deep);
+  --color-brand-gold: var(--brand-gold);
+  --color-brand-gold-muted: var(--brand-gold-muted);
+  --color-brand-parchment: var(--brand-parchment);
+  --color-brand-ivory: var(--brand-ivory);
+  --color-brand-walnut: var(--brand-walnut);
+  --color-brand-beige: var(--brand-beige);
+  --color-whatsapp: var(--brand-gold);
+  --font-display: "Playfair Display", "Cormorant Garamond", Georgia, serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root, .dark {
+  color-scheme: dark;
+  --radius: 0.5rem;
+  --background: #0B0B20;
+  --foreground: #E8E5DC;
+  --card: #1B1B32;
+  --card-foreground: #F8F5ED;
+  --popover: #1B1B32;
+  --popover-foreground: #F8F5ED;
+  --primary: #F8F5ED;
+  --primary-foreground: #0B0B20;
+  --secondary: #15152B;
+  --secondary-foreground: #F8F5ED;
+  --muted: #15152B;
+  --muted-foreground: #D8D5CB;
+  --accent: #D9A83E;
+  --accent-foreground: #0B0B20;
+  --destructive: #FF9292;
+  --destructive-foreground: #0B0B20;
+  --border: #A9813259;
+  --input: #A9813280;
+  --ring: #F5D477;
+  --brand: #15152B;
+  --brand-deep: #0B0B20;
+  --brand-gold: #D9A83E;
+  --brand-gold-muted: #F5D477;
+  --brand-parchment: #E8E5DC;
+  --brand-ivory: #F8F5ED;
+  --brand-walnut: #171729;
+  --brand-beige: #D8D5CB;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :where(a, button, input, select, textarea):focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 4px;
+  }
+
+  section[id] {
+    scroll-margin-top: 10.5rem;
+  }
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+}
+
+/* Scroll reveal */
+@utility reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s ease;
+
+  &.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .whatsapp-float::before {
+    animation: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Field styling shared by the enquiry form */
+@utility field-input {
+  width: 100%;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-input);
+  background-color: var(--color-card);
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  color: var(--color-foreground);
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &::placeholder {
+    color: var(--color-muted-foreground);
+  }
+
+  &:focus-visible {
+    border-color: var(--color-brand-gold);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-brand-gold) 22%, transparent);
+  }
+}
+
+@utility label-form {
+  display: block;
+  margin-bottom: 0.375rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-foreground);
+}
+
+/* Restrained brand accent for the WhatsApp button */
+@keyframes whatsapp-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.45;
+  }
+  22% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+@utility whatsapp-float {
+  position: fixed;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    z-index: -1;
+    background: var(--color-whatsapp);
+    animation: whatsapp-ring 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    pointer-events: none;
+  }
+}
