@@ -67,6 +67,18 @@ const structuredData = {
         addressCountry: "IN",
       },
     },
+    {
+      "@type": "Library",
+      name: `${LIBRARY.name} — Waghodia Road`,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress:
+          "4th Floor, Study House Library, Sharam Complex G Tower, Waghodia Rd, opposite Savita Hospital Road, Pariwar Char Rasta",
+        addressLocality: "Vadodara",
+        addressRegion: "Gujarat",
+        addressCountry: "IN",
+      },
+    },
   ],
 };
 

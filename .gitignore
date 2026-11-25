@@ -16,6 +16,9 @@ dist-ssr
 .nitro
 *.local
 .env
+backend/.env
+private-exports/
+private-backups/
 
 # Wrangler / Cloudflare
 .wrangler/

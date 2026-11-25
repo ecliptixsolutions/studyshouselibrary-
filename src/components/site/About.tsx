@@ -2,7 +2,7 @@ import { GraduationCap, Lightbulb, Users } from "lucide-react";
 import { Reveal } from "./Reveal";
 
 const HIGHLIGHTS = [
-  { icon: Users, label: "Three branches across Vadodara" },
+  { icon: Users, label: "Four branches across Vadodara" },
   { icon: GraduationCap, label: "UPSC, GPSC, CA, GATE, CAT and SSC preparation" },
   { icon: Lightbulb, label: "Open daily, 7:30 AM – 11 PM" },
 ] as const;

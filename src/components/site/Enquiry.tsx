@@ -25,9 +25,16 @@ export function Enquiry() {
   const [errors, setErrors] = useState<Partial<Record<keyof EnquiryInput, string>>>({});
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
+  const [reference, setReference] = useState<string | null>(null);
   const [whatsappShare, setWhatsappShare] = useState<string | null>(null);
 
-  useEffect(() => () => setValues(EMPTY), []);
+  useEffect(() => {
+    const branch = new URLSearchParams(window.location.search).get("branch");
+    if (branch && BRANCHES.some((item) => item.name === branch)) {
+      setValues((current) => ({ ...current, preferredBranch: branch }));
+    }
+    return () => setValues(EMPTY);
+  }, []);
 
   function set<K extends keyof EnquiryInput>(key: K, value: EnquiryInput[K]) {
     setValues((v) => ({ ...v, [key]: value }));
@@ -72,6 +79,7 @@ export function Enquiry() {
       setWhatsappShare(`https://wa.me/919426282245?text=${encodeURIComponent(waMessage)}`);
       setValues(EMPTY);
       setErrors({});
+      setReference(result.reference ?? null);
       setDone(true);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Something went wrong. Please try again.");
@@ -351,6 +359,7 @@ export function Enquiry() {
                   <p className="text-sm font-medium text-primary">
                     Your enquiry is in. If you need anything else, WhatsApp us at +91 94262 82245.
                   </p>
+                  {reference && <p className="text-sm text-brand-gold">Reference: {reference}</p>}
                   {whatsappShare && (
                     <a
                       href={whatsappShare}

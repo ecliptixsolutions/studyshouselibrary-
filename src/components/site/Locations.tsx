@@ -26,7 +26,7 @@ export function Locations() {
           </Reveal>
         </div>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
+        <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           {BRANCHES.map((branch, i) => (
             <Reveal key={branch.name} delayMs={i * 80}>
               <div className="group flex h-full flex-col rounded-2xl border border-brand-gold/30 bg-card p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand-gold/60 hover:shadow-[0_20px_44px_rgba(11,11,32,0.14)]">
@@ -58,7 +58,7 @@ export function Locations() {
                     Get Directions
                   </a>
                   <a
-                    href="#enquiry"
+                    href={`/?branch=${encodeURIComponent(branch.name)}#enquiry`}
                     className="inline-flex items-center gap-1 text-sm font-semibold text-brand-gold-muted transition-colors hover:text-brand-gold-muted"
                   >
                     Enquire Now

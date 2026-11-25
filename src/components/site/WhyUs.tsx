@@ -20,7 +20,7 @@ const REASONS = [
   {
     icon: BadgeCheck,
     title: "Convenient Locations",
-    text: "Three branches across Vadodara — Gotri, Nizampura and Fatehgunj — so one is always near you.",
+    text: "Four branches across Vadodara — Gotri, Nizampura, Fatehgunj and Waghodia Road — so one is always near you.",
   },
 ] as const;
 
@@ -62,7 +62,7 @@ export function WhyUs() {
           <div className="mt-12 flex flex-wrap items-center justify-between gap-6 border border-brand-gold/30 rounded-2xl bg-white/[0.03] px-7 py-6">
             <p className="flex items-center gap-3 text-sm text-brand-parchment/90">
               <Timer className="size-4 shrink-0 text-brand-gold" aria-hidden />
-              Open daily, 7:30 AM – 11 PM — all three branches.
+              Open daily, 7:30 AM – 11 PM — all four branches.
             </p>
             <a
               href="#enquiry"

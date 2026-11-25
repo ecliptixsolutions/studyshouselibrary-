@@ -95,48 +95,35 @@ export const submitEnquiry = createServerFn({ method: "POST" })
       hits.set(ip, { count: 1, reset: now + RATE_WINDOW_MS });
     }
 
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-
     const mobile = normalizeMobile(data.mobileNumber);
     const whatsapp =
       data.whatsappNumber && data.whatsappNumber.trim()
         ? normalizeMobile(data.whatsappNumber)
         : null;
 
-    // Duplicate guard: same mobile within the last 24 hours.
-    const since = new Date(now - 24 * 60 * 60 * 1000).toISOString();
-    const { data: existing } = await supabaseAdmin
-      .from("student_enquiries")
-      .select("id")
-      .eq("mobile_number", mobile)
-      .gte("created_at", since)
-      .limit(1);
-
-    if (existing && existing.length > 0) {
-      return { ok: true as const, duplicate: true as const };
+    const apiUrl = process.env.MYSQL_API_URL;
+    const internalToken = process.env.MYSQL_API_INTERNAL_TOKEN;
+    if (!apiUrl || !internalToken) {
+      console.error("MySQL API configuration is missing.");
+      throw new Error("We couldn't submit your enquiry right now. Please try again in a moment.");
     }
 
-    const { error } = await supabaseAdmin.from("student_enquiries").insert({
-      full_name: data.fullName,
-      email: data.email,
-      mobile_number: mobile,
-      whatsapp_number: whatsapp,
-      preferred_branch: data.preferredBranch,
-      membership_type: data.membershipType,
-      joining_date: data.joiningDate ? data.joiningDate : null,
-      study_purpose: data.studyPurpose,
-      preferred_timing: data.preferredTiming,
-      additional_message: data.additionalMessage ? data.additionalMessage : null,
-      consent: true,
-      enquiry_status: "New",
+    const response = await fetch(`${apiUrl.replace(/\/$/, "")}/api/enquiries`, {
+      method: "POST",
+      headers: { "content-type": "application/json", "x-internal-token": internalToken },
+      body: JSON.stringify({
+        fullName: data.fullName, email: data.email, mobileNumber: mobile, whatsappNumber: whatsapp,
+        preferredBranch: data.preferredBranch, membershipType: data.membershipType,
+        joiningDate: data.joiningDate || null, studyPurpose: data.studyPurpose,
+        preferredTiming: data.preferredTiming, additionalMessage: data.additionalMessage || null,
+        consent: true, source: "Website",
+      }),
     });
-
-    if (error) {
-      console.error("Enquiry insert failed:", error.message);
-      throw new Error(
-        "We couldn't submit your enquiry right now. Please try again in a moment."
-      );
+    const result = await response.json().catch(() => null) as { duplicate?: boolean; message?: string; reference?: string } | null;
+    if (!response.ok) {
+      console.error("MySQL API enquiry request failed:", response.status);
+      throw new Error(result?.message || "We couldn't submit your enquiry right now. Please try again in a moment.");
     }
 
-    return { ok: true as const, duplicate: false as const };
+    return { ok: true as const, duplicate: Boolean(result?.duplicate), reference: result?.reference };
   });

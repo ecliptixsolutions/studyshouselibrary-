@@ -19,7 +19,9 @@ export interface Branch {
   mapsUrl: string;
 }
 
-const branchInput = [
+type BranchInput = Omit<Branch, "mapsUrl"> & { mapsUrl?: string };
+
+const branchInput: BranchInput[] = [
   {
     name: "Gotri",
     area: "Gotri Road",
@@ -38,11 +40,19 @@ const branchInput = [
     address:
       "4th Floor, Silver Bell Complex, Abbas Tyabji Rd, above CCD, opp. Word office-3, Jayesh Colony, Fatehgunj, Vadodara, Gujarat 390008",
   },
-] as const;
+  {
+    name: "Waghodia Road",
+    area: "Pariwar Char Rasta",
+    address:
+      "4th Floor, Study House Library, Sharam Complex G Tower, Waghodia Rd, opposite Savita Hospital Road, Pariwar Char Rasta, Vadodara, Gujarat.",
+    mapsUrl:
+      "https://www.google.com/maps/search/?api=1&query=Study+House+Library+Sharam+Complex+G+Tower+Waghodia+Road+Pariwar+Char+Rasta+Vadodara",
+  },
+];
 
 export const BRANCHES: Branch[] = branchInput.map((b) => ({
   ...b,
-  mapsUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(b.address)}`,
+  mapsUrl: b.mapsUrl ?? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(b.address)}`,
 }));
 
 export const MEMBERSHIP_TYPES = [
